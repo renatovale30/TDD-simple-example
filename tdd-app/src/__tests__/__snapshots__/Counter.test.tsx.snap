@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Counter suite Should render correctly 1`] = `
+<div>
+  <button
+    data-testid="buttonQa"
+    type="button"
+  >
+    Button
+  </button>
+  <div
+    data-testid="counter"
+  >
+    Count is: 
+    100
+  </div>
+</div>
+`;
