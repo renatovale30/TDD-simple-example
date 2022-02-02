@@ -1,16 +1,16 @@
 import React from 'react';
-import Counter from './Counter'
+import Pokemons from './Pokemons'
 import { setupWorker } from 'msw';
-import { getCount } from './mocks'
+import { getCount, getPokemons } from './mocks'
 
 function App() {
   
-  const browser = setupWorker(getCount);
+  const browser = setupWorker(getCount, getPokemons);
   browser.start();
 
   return (
     <div>
-      <Counter />
+      <Pokemons />
     </div>
   );
 }
