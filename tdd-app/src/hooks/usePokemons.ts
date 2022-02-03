@@ -16,9 +16,9 @@ export default () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchPokemons = async () => {
+  const fetchPokemons = async (name: string) => {
     try {
-      const response = await getPokemons();
+      const response = await getPokemons(name);
       setPokemons(response);
       setLoading(false);
     } catch (err) {
