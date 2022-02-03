@@ -35,7 +35,7 @@ const Pokemons = () => {
       {pokemons.map((poke) => {
         return (
           <div style={{ margin: "10px" }} key={poke.id}>
-            <div>Name: {poke.name}</div>
+            <div>Name: {poke.name.english}</div>
             <div>Type: {poke.type.join(", ")}</div>
             <div>HP: {poke.base.HP}</div>
             <div>Attack: {poke.base.Attack}</div>
