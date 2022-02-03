@@ -9,20 +9,20 @@
  * is strictly prohibited.
  */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import usePokemons from './hooks/usePokemons';
+import React, { useEffect, useState } from "react";
+import usePokemons from "./hooks/usePokemons";
 
 const Pokemons = () => {
   const { pokemons, loading, getPokemons } = usePokemons();
-  const [search, setSearch] = useState<string>("")
+  const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
     getPokemons();
   }, []);
 
-  const onSearch= (value: string) => {
-    setSearch(value)
-  }
+  const onSearch = (value: string) => {
+    setSearch(value);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -30,26 +30,27 @@ const Pokemons = () => {
 
   return (
     <div>
-     Search Pokemon: <input type="text" onChange={(e) => onSearch(e.target.value)} />
-    {pokemons
-      .filter(
-        poke => poke.name.toLowerCase().includes(search.toLowerCase())
-      )
-      .map(poke => {
-      return (
-        <div style={{margin: "10px"}} key={poke.id}>
-          <div>Name: {poke.name}</div>
-          <div>Type: {poke.type.join(', ')}</div>
-          <div>HP: {poke.stats.hp}</div>
-          <div>Attack: {poke.stats.attack}</div>
-          <div>Defense: {poke.stats.defense}</div>
-          <div>Special Attack: {poke.stats.spAttack}</div>
-          <div>Special Defense: {poke.stats.spDefense}</div>
-          <div>Speed: {poke.stats.speed}</div>
-          <div/>
-        </div>
-      );
-    })}
+      Search Pokemon:{" "}
+      <input type="text" onChange={(e) => onSearch(e.target.value)} />
+      {pokemons
+        .filter((poke) =>
+          poke.name.english.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((poke) => {
+          return (
+            <div style={{ margin: "10px" }} key={poke.id}>
+              <div>Name: {poke.name}</div>
+              <div>Type: {poke.type.join(", ")}</div>
+              <div>HP: {poke.base.HP}</div>
+              <div>Attack: {poke.base.Attack}</div>
+              <div>Defense: {poke.base.Defense}</div>
+              <div>Special Attack: {poke.base["Sp. Attack"]}</div>
+              <div>Special Defense: {poke.base["Sp. Defense"]}</div>
+              <div>Speed: {poke.base.Speed}</div>
+              <div />
+            </div>
+          );
+        })}
     </div>
   );
 };

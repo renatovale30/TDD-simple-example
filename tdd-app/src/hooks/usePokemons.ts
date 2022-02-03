@@ -8,31 +8,18 @@
  * U.S. Copyright Office. Unauthorized copying of this file, via any medium
  * is strictly prohibited.
  */
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import { getPokemons, Pokemon } from "../helpers/pokemons";
 
-export type TPokemon = {
-  id: number;
-  name: string;
-  type: string[];
-  stats: {
-    hp: number;
-    attack: number;
-    defense: number;
-    spAttack: number;
-    spDefense: number;
-    speed: number;
-  }
-}
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
-  const [pokemons, setPokemons] = useState<TPokemon[]>([]);
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchPokemons = async () => {
     try {
-      const response = await axios.get('https://myapi.com/getPokemons');
-      setPokemons(response.data);
+      const response = await getPokemons();
+      setPokemons(response);
       setLoading(false);
     } catch (err) {
       console.error(err);
