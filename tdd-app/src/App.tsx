@@ -1,11 +1,10 @@
-import React from 'react';
-import Pokemons from './Pokemons'
-import { setupWorker } from 'msw';
-import { getCount, getPokemons } from './mocks'
+import React from "react";
+import Pokemons from "./Pokemons";
+import { setupWorker } from "msw";
+import { getPokemons } from "./mocks";
 
 function App() {
-  
-  const browser = setupWorker(getCount, getPokemons);
+  const browser = setupWorker(getPokemons);
   browser.start();
 
   return (
