@@ -10,8 +10,22 @@
  */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
+import { Line } from 'rc-progress';
 import usePokemons from "./hooks/usePokemons";
+import pokemonImages from "./fixtures/pokemon-images.json"
+import Types from './Types';
+import './Pokemons.css';
 
+const maxHp = 250;
+const maxAttack = 135;
+const maxDefense = 130;
+const maxSpeed = 130;
+
+const RenderBar = ({percent, title, color}: {percent: number, title: string, color: string}) => {
+  return <div title={title} className="pokemon-status">
+    {title} <Line percent={percent} trailWidth={4} trailColor="#b5b5b5" strokeWidth={4} strokeColor={color} />
+    </div>
+}
 const Pokemons = () => {
   const [search, setSearch] = useState<string>("");
   const { pokemons, loading, getPokemons } = usePokemons();
@@ -30,23 +44,42 @@ const Pokemons = () => {
 
   return (
     <div>
-      Search Pokemon:{" "}
-      <input type="text" onChange={(e) => onSearch(e.target.value)} />
-      {pokemons.map((poke) => {
-        return (
-          <div style={{ margin: "10px" }} key={poke.id}>
-            <div>Name: {poke.name.english}</div>
-            <div>Type: {poke.type.join(", ")}</div>
-            <div>HP: {poke.base.HP}</div>
-            <div>Attack: {poke.base.Attack}</div>
-            <div>Defense: {poke.base.Defense}</div>
-            <div>Special Attack: {poke.base["Sp. Attack"]}</div>
-            <div>Special Defense: {poke.base["Sp. Defense"]}</div>
-            <div>Speed: {poke.base.Speed}</div>
-            <div />
-          </div>
-        );
-      })}
+      <div className="pokemon-search">
+        <input placeholder="Search Pokemon" type="text" onChange={(e) => onSearch(e.target.value)} />
+      </div>
+     
+      <div className="pokemon-grid">
+        {pokemons.map((poke) => {
+          const name = poke.name.english;
+
+          return (
+            <div key={poke.id}>
+              <div className="pokemon-header">
+                <h2>{name}</h2>
+                {poke.type.map(t =>  (
+                  <div key={`${poke.id}-${t}`}>
+                    <Types type={t}/>
+                  </div>
+                  ))}
+              </div>
+              <div className="pokemonWrapper" style={{ margin: "10px" }}>
+                <div>
+                  {/* @ts-ignore */}
+                  <img src={pokemonImages[name]} alt={name} />
+                </div>
+                <div>
+                  <RenderBar percent={(poke.base.HP / maxHp) * 100} title="HP" color="#4595c5" />
+                  <RenderBar percent={(poke.base.Attack / maxAttack) * 100} title="Attack" color="#4595c5" />
+                  <RenderBar percent={(poke.base.Defense / maxDefense) * 100} title="Defense" color="#4595c5" />
+                  <RenderBar percent={(poke.base["Sp. Attack"] / maxAttack) * 100} title="Special Attack" color="#4595c5" />
+                  <RenderBar percent={(poke.base["Sp. Defense"] / maxDefense) * 100} title="Special Defense" color="#4595c5" />
+                  <RenderBar percent={(poke.base.Speed / maxSpeed) * 100} title="Speed" color="#4595c5" />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
