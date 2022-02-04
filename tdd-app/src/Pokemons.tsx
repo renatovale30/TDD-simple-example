@@ -14,6 +14,7 @@ import { Line } from 'rc-progress';
 import usePokemons from "./hooks/usePokemons";
 import pokemonImages from "./fixtures/pokemon-images.json"
 import Types from './Types';
+import useDebounce from './hooks/useDebounce'
 import './Pokemons.css';
 
 const maxHp = 250;
@@ -28,11 +29,12 @@ const RenderBar = ({percent, title, color}: {percent: number, title: string, col
 }
 const Pokemons = () => {
   const [search, setSearch] = useState<string>("");
+  const debouncedValue = useDebounce<string>(search, 500)
   const { pokemons, loading, getPokemons } = usePokemons();
 
   useEffect(() => {
-    getPokemons(search);
-  }, [search]);
+    getPokemons(debouncedValue);
+  }, [debouncedValue]);
 
   const onSearch = (value: string) => {
     setSearch(value);

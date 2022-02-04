@@ -28,7 +28,7 @@ export async function getPokemons(
 
   if (name) {
     result = result.filter(
-      (p) => p.name.english.toLowerCase() === name.toLowerCase()
+      (p) => p.name.english.toLowerCase().includes(name.toLowerCase())
     );
   }
 
