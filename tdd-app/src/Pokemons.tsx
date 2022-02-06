@@ -14,7 +14,6 @@ import { Line } from 'rc-progress';
 import usePokemons from "./hooks/usePokemons";
 import pokemonImages from "./fixtures/pokemon-images.json"
 import Types from './Types';
-import useDebounce from './hooks/useDebounce'
 import './Pokemons.css';
 
 const maxHp = 250;
@@ -29,12 +28,11 @@ const RenderBar = ({percent, title, color}: {percent: number, title: string, col
 }
 const Pokemons = () => {
   const [search, setSearch] = useState<string>("");
-  const debouncedValue = useDebounce<string>(search, 500)
   const { pokemons, loading, getPokemons } = usePokemons();
 
   useEffect(() => {
-    getPokemons(debouncedValue);
-  }, [debouncedValue]);
+    getPokemons(search);
+  }, [search]);
 
   const onSearch = (value: string) => {
     setSearch(value);
@@ -45,9 +43,9 @@ const Pokemons = () => {
   }
 
   return (
-    <div>
+    <div data-testid="pokemons-list">
       <div className="pokemon-search">
-        <input placeholder="Search Pokemon" type="text" onChange={(e) => onSearch(e.target.value)} />
+        <input data-testid="pokemon-search" placeholder="Search Pokemon" type="text" onChange={(e) => onSearch(e.target.value)} />
       </div>
      
       <div className="pokemon-grid">
@@ -55,7 +53,7 @@ const Pokemons = () => {
           const name = poke.name.english;
 
           return (
-            <div key={poke.id}>
+            <div data-testid="pokemon-card" key={poke.id}>
               <div className="pokemon-header">
                 <h2>{name}</h2>
                 {poke.type.map(t =>  (
